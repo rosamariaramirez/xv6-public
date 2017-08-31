@@ -559,3 +559,7 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+void printHello(void){
+  cprintf("hey hey heeey. Hello. \n");
+}
