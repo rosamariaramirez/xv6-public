@@ -7,6 +7,7 @@
 #include "proc.h"
 #include "spinlock.h"
 
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -17,6 +18,8 @@ static struct proc *initproc;
 int nextpid = 1;
 extern void forkret(void);
 extern void trapret(void);
+extern int sys_getpid(void);
+//extern int sys_kill(void);
 
 static void wakeup1(void *chan);
 
@@ -562,4 +565,29 @@ procdump(void)
 
 void printHello(void){
   cprintf("hey hey heeey. Hello. \n");
+}
+
+void killProcess(void){
+  int pid = sys_getpid();
+
+  //struct proc *p;
+  //int killResult = -1;
+
+  //acquire(&ptable.lock);
+
+  // Pass abandoned children to init.
+  /*for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+
+      if(p+1 == &ptable.proc[NPROC]){
+        killResult = kill(p->pid);
+        cprintf("Your process has been terminated.");
+        break;
+      }
+  }*/
+  
+  int killResult = kill(pid);
+
+  if(killResult == 0){
+    cprintf("Your process has been terminated.");
+  }
 }

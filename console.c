@@ -188,11 +188,12 @@ struct {
 
 #define C(x)  ((x)-'@')  // Control-x
 extern void printHello(void);
+extern void killProcess(void);
 
 void
 consoleintr(int (*getc)(void))
 {
-  int c, doprocdump = 0, doPrintHello = 0;
+  int c, doprocdump = 0, doPrintHello = 0, doKillProcess = 0;
 
   acquire(&cons.lock);
   while((c = getc()) >= 0){
@@ -204,7 +205,7 @@ consoleintr(int (*getc)(void))
     //
     case C('C'):  // Process listing.
       // procdump() locks cons.lock indirectly; invoke later
-      doPrintHello = 1;
+      doKillProcess = 1;
       break;
     //
     case C('U'):  // Kill line.
@@ -240,6 +241,10 @@ consoleintr(int (*getc)(void))
 
   if(doPrintHello){
     printHello();
+  }
+
+  if(doKillProcess){
+    killProcess();
   }
 }
 
