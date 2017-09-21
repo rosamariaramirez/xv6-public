@@ -26,6 +26,9 @@ int uptime(void);
 int shutdown(void);
 int reboot(void);
 int set_priority(int);
+int shmem(int);
+char * shmat(int);
+int shdemat(int);
 
 
 // ulib.c
