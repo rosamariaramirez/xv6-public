@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
    printf(1,"I am the child: %d\n", getpid());
    printf(1,"Waiting for a signal \n");
    //Setup the signal and wait for it
-   signal(1,sig_handled);
+   signal(signum,sig_handled);
    while(value){};
    printf(1,"\nWhile completed\n");
    break;
