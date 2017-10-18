@@ -601,45 +601,18 @@ void killProcess(void){
   }
 }
 
+int lookForPid(int pidGiven){
 
-int getppid(){
-  return myproc()->parent->pid;
-}
+    struct proc *p;
+    acquire(&ptable.lock);
 
-
-int killsignal(int pid, int signum){
-  struct proc *p;
-  if(argint(0, &pid) < 0){
-    return -1;
-  }
-  if(argint(1, &signum) < 0){
-    return -1;
-  }
-  if(signum > 4 || signum < 1){
-    return -1;
-  }
-  //Try to find the process with the matching pid.
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if(p->pid == pid) break;
-  }
-   //If the pid is not found finish
-   if(p->pid != pid){
-    return -1;
-   }
-   //Default option finish the process
-   signum -=1;
-   if((int)p->signals[signum] == -1){
-    kill(p->pid);
-   }
-  //Else execute the function
-  //Move the stack to the next position
-  p->tf->esp -= 4;
-  //Point to the function
-  p->tf->eip = (uint)p->signals[signum];
-  return 1;
-}
-
-int signal(int signum,sighandler_t * handler){
-  myproc()->signals[signum] = handler;
-  return 1;
+    // Pass abandoned children to init.
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->pid == pidGiven)
+      break;
+      if(p == &ptable.proc[NPROC]-1){
+        return -1;
+      }
+    }
+    return 0;
 }

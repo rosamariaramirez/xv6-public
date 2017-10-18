@@ -13,9 +13,9 @@ struct cpu {
 extern struct cpu cpus[NCPU];
 extern int ncpu;
 
-int getppid(void);
+/*int getppid(void);
 int signal (int signum,sighandler_t * handler);
-int killsignal(int pid, int signum);
+int killsignal(int pid, int signum);*/
 
 
 //PAGEBREAK: 17
