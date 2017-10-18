@@ -26,12 +26,12 @@ int main(int argc, char *argv[]){
 
  //Creating another process
  pid = fork();
- set_priority(priority);
  switch(pid){
   case -1: //There was a problem
    printf(2,"Error running fork");
    break;
   case 0: //child
+    set_priority(priority);
    printf(1,"I am the child: %d\n", getpid());
    printf(1,"Waiting for a signal \n");
    //Setup the signal and wait for it
