@@ -180,6 +180,7 @@ UPROGS=\
 	_reboot\
 	_fibo\
 	_shmtest\
+	_test_signal\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

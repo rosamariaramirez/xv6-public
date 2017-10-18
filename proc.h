@@ -13,6 +13,11 @@ struct cpu {
 extern struct cpu cpus[NCPU];
 extern int ncpu;
 
+int getppid(void);
+int signal (int signum,sighandler_t * handler);
+int killsignal(int pid, int signum);
+
+
 //PAGEBREAK: 17
 // Saved registers for kernel context switches.
 // Don't need to save all the segment registers (%cs, etc),
@@ -50,6 +55,9 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
   uchar priority;              // proprity
+  sighandler_t* signals[4];
+  //void (*signals[4])(void);    //crear un arreglo de funciones para cada señal. esto seria igual que int signals[4] porque las funciones son enteros.
+
 };
 
 // Process memory is laid out contiguously, low addresses first:

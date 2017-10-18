@@ -189,6 +189,10 @@ struct {
 #define C(x)  ((x)-'@')  // Control-x
 extern void printHello(void);
 extern void killProcess(void);
+extern int getppid(void);
+extern int signal(int, sighandler_t);
+extern int killsignal(int, int);
+
 
 void
 consoleintr(int (*getc)(void))

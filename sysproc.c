@@ -108,3 +108,68 @@ int sys_set_priority(void){
   myproc() -> priority = priority;
   return 0;
 }
+
+/*int sys_signal(signum, handler){
+  int signum1 = signum;
+  int function = handler;
+  if(argint(0, &signum1) < 0){
+    return -1;
+  }
+  if(argint(0, &function) < 0){
+    return -1;
+  }
+  myproc() -> signals[signum1] = (sighandler_t)function;
+}
+
+int sys_getppid(void){
+  //return myproc()->pid;
+  //return proc->parent->pid;
+  return myproc()->parent->pid;
+}
+*/
+/*TODO
+extern int sys_getppid(void);
+extern int sys_signal(int signum, sighandler_t * handler);
+extern int sys_killsignal(int pid, int signum);
+*/
+/*
+//run the signal function
+int sys_killsignal(pid, signum) {
+ int pid1 = pid;
+ int signum1 = signum;
+ struct proc *p;
+ if(argint(0, &pid1) < 0) return -1;
+   if(argint(1, &signum1) < 0) return -1;
+ if(signum1 > 4 || signum1 < 1) return -1;
+ //Try to find the process with the matching pid.
+ for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        if(p->pid == pid1) break;
+
+   //If the pid is not found finish
+   if(p->pid != pid1) return -1;
+
+   //Default option finish the process
+   signum1 -=1;
+   if((int)p->signals[signum1] == -1) kill(p->pid);
+
+ //TODO Else execute the function
+ myproc() -> signals[signum1] = (sighandler_t)function;
+ //Move the stack to the next position
+ p->tf->esp -= 4;
+ //Point to the function
+ p->tf->eip = (uint)p->signals[signum1];
+ return 1;
+}*/
+//signals functions
+int sys_killsignal(int pid, int signum) {
+    return killsignal(pid, signum);
+}
+
+int sys_signal(int signum,sighandler_t * handler){
+  return signal(signum, handler);
+
+}
+
+int sys_getppid(void){
+  return getppid();
+}
