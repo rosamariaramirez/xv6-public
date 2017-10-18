@@ -589,8 +589,12 @@ void killProcess(void){
         break;
       }
   }*/
+  //TODO CHECK SYS PID != 0
 
-  int killResult = kill(pid);
+  int killResult = 1;
+
+  if(pid!=0)
+  killResult = kill(pid);
 
   if(killResult == 0){
     cprintf("Your process has been terminated.");
