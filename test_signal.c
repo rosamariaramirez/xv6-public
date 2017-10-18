@@ -23,8 +23,8 @@ int main(int argc, char *argv[]){
     int signum;
     int priority;
 
-    if(argc <= 1){
-           printf(2,"Error use test_signal signum \n");
+    if(argc <= 2){
+           printf(2,"Error use test_signal signum priority \n");
        exit();
      }
 
