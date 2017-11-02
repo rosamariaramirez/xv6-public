@@ -375,7 +375,7 @@ sys_chdir(void)
   char *path;
   struct inode *ip;
   struct proc *curproc = myproc();
-  
+
   begin_op();
   if(argstr(0, &path) < 0 || (ip = namei(path)) == 0){
     end_op();
@@ -441,5 +441,52 @@ sys_pipe(void)
   }
   fd[0] = fd0;
   fd[1] = fd1;
+  return 0;
+}
+
+/*int sys_chmod(void){
+  char *fileName;
+  char *permissions;
+  struct inode *ip;
+  //con esto buscamos en el stack los argumentos de nuestra funcion, porque las llamadas a sistema no reciben argumentos, los van a buscar.
+  if(argstr(0, &permissions) < 0 || argstr(1, &fileName) < 0)
+    return -1;
+
+  begin_op();
+  //ya tengo mi inode, si es cero bye.
+  if((ip = namei(fileName)) == 0){
+    end_op();
+    return -1;
+  }
+  //ilock va al disco duro, y la info del inodo los copia en RAM. Guarda el dato en la ip.
+  ilock(ip);
+  //ponemos los nuevos permisos en la RAM.
+  memmove(ip->permissions,permissions,4);
+  //tengo que escribir al disco duro ahora
+  iupdate(ip); //guarda permisos en disco duro
+  iunlock(ip); //liberamos el lock
+  end_op();
+  return 0;
+}*/
+
+int
+sys_chmod(void) {
+  char *fileName;
+  char *permissions;
+  struct inode *ip;
+
+  if(argstr(0, &permissions) < 0 || argstr(1, &fileName) < 0)
+    return -1;
+
+  begin_op();
+  if((ip = namei(fileName)) == 0){
+    end_op();
+    return -1;
+  }
+  ilock(ip); //lee de HD y guarda todo del inode en RAM
+  memmove(ip->permissions,permissions,4); //sobre escribe los permisos que se mandan
+  iupdate(ip); //guarda en disco duro
+  iunlock(ip); //libera el lock
+  end_op();
   return 0;
 }
